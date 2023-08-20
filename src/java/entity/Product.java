@@ -18,6 +18,16 @@ public class Product {
     private String category_name;
     private int quantity;
 
+    public Product(int product_id, String product_name, int model_year, double list_price, String brand_name, String category_name, int quantity) {
+        this.product_id = product_id;
+        this.product_name = product_name;
+        this.model_year = model_year;
+        this.list_price = list_price;
+        this.brand_name = brand_name;
+        this.category_name = category_name;
+        this.quantity = quantity;
+    }
+
     
     
 

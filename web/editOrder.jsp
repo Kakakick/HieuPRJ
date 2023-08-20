@@ -34,7 +34,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="managerOrderController?service=update"  method="post">
-                            
+
                             <div class="modal-body">					
                                 <div class="form-group">
                                     <label>OrderID</label>
@@ -47,13 +47,43 @@
                                 <div class="form-group">
                                     <label>Status</label>
                                     <select name="status" id="status" class="form-select" aria-label="Default select example">
-                                         <c:forEach items="${dataS}" var="o">                                           
+                                        <c:forEach items="${dataS}" var="o">                                           
                                             <c:choose >
                                                 <c:when test="${dataO.order_status eq o}">
-                                                    <option value="${o}" selected>${o}</option>
+                                                    <option value="${o}" selected>
+                                                        <c:choose >
+                                                            <c:when test="${o eq '1'}">
+                                                                Wait
+                                                            </c:when>
+                                                            <c:when test="${o eq '2'}">
+                                                                Process
+                                                            </c:when>
+                                                            <c:when test="${o eq '3'}">
+                                                                Process
+                                                            </c:when>
+                                                            <c:when test="${o eq '4'}">
+                                                                Done
+                                                            </c:when>
+                                                        </c:choose> 
+                                                    </option>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <option value="${o}">${o}</option>
+                                                    <option value="${o}">
+                                                        <c:choose >
+                                                            <c:when test="${o eq '1'}">
+                                                                Wait
+                                                            </c:when>
+                                                            <c:when test="${o eq '2'}">
+                                                                Process
+                                                            </c:when>
+                                                            <c:when test="${o eq '3'}">
+                                                                Process
+                                                            </c:when>
+                                                            <c:when test="${o eq '4'}">
+                                                                Done
+                                                            </c:when>
+                                                        </c:choose> 
+                                                    </option>
                                                 </c:otherwise>
                                             </c:choose>                 
                                         </c:forEach>

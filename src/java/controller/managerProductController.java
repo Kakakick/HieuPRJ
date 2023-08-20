@@ -42,69 +42,70 @@ public class managerProductController extends HttpServlet {
                 service = "display";
             }
             if (service.equals("display")) {
-                Vector<Product> vector = dao.getAllProduct("select * from Products");
+                Vector<Product> vector = dao.getAllProductVer2("select p.product_id, p.product_name, p.model_year, p.list_price , p.brand_name, p.category_name, sum(s.quantity) as total_quantity\n" +
+"from products p\n" +
+"join stocks s\n" +
+"on s.product_id = p.product_id\n" +
+"group by p.product_id, p.product_name, p.brand_name, p.category_name, p.list_price, p.model_year");
                 request.setAttribute("listPro", vector);
                 request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
             }
-            if(service.equals("insert")){
+            if (service.equals("insert")) {
                 String submit = request.getParameter("submit");
-                if(submit == null){// form chua chay show jsp
+                if (submit == null) {// form chua chay show jsp
                     //show jsp
-                    
+
                     Vector<Product> vectorB = dao.getField("brand_name");
                     Vector<Product> vectorC = dao.getField("category_name");
-                    
-                    
+
                     //set data for view
-                    
                     request.setAttribute("dataB", vectorB);
                     request.setAttribute("dataC", vectorC);
                     request.getRequestDispatcher("insertProduct.jsp").forward(request, response);
-                }else{//insert
-                    
+                } else {//insert
+
                     int id = Integer.parseInt(request.getParameter("pid"));
                     String name = request.getParameter("pname");
                     int model = Integer.parseInt(request.getParameter("model"));
                     double price = Double.parseDouble(request.getParameter("price"));
                     String brand = request.getParameter("brand");
                     String category = request.getParameter("category");
-                    
+
                     Product pro = new Product(id, name, model, price, brand, category);
                     dao.insertProduct(pro);
                     response.sendRedirect("managerProductController");
                 }
             }
-            if(service.equals("update")){
+            if (service.equals("update")) {
                 String submit = request.getParameter("submit");
-                if(submit == null){// form chua chay show jsp
+                if (submit == null) {// form chua chay show jsp
                     //show jsp
                     int id = Integer.parseInt(request.getParameter("id"));
                     Vector<Product> vectorB = dao.getField("brand_name");
                     Vector<Product> vectorC = dao.getField("category_name");
                     Product pro = (Product) dao.getAllProduct("select * from Products "
-                            + " where product_id="+id).get(0);
-                    
+                            + " where product_id=" + id).get(0);
+
                     //set data for view
-                    request.setAttribute("dataRow",pro);
+                    request.setAttribute("dataRow", pro);
                     request.setAttribute("dataB", vectorB);
                     request.setAttribute("dataC", vectorC);
                     request.getRequestDispatcher("edit.jsp").forward(request, response);
-                }
-                else{// update
+                } else {// update
                     String name = request.getParameter("pname");
                     int model = Integer.parseInt(request.getParameter("model"));
                     double price = Double.parseDouble(request.getParameter("price"));
                     String brand = request.getParameter("brand");
                     String category = request.getParameter("category");
-                    
+
                     int id = Integer.parseInt(request.getParameter("pid"));
-                    
+
                     Product pro = new Product(id, name, model, price, brand, category);
                     dao.updateProduct(pro);
                     response.sendRedirect("managerProductController");
                 }
             }
-            if(service.equals("delete")){
+            if (service.equals("delete")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 dao.deleteProduct(id);
                 response.sendRedirect("managerProductController");

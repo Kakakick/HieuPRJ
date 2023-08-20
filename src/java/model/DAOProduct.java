@@ -236,8 +236,33 @@ public class DAOProduct extends DBConnect {// DAO:database access object
                 int year = rs.getInt(3);
                 double price = rs.getDouble(4);
                 String brand = rs.getString(5);
-                String category = rs.getString(6);
+                String category = rs.getString(6);                
                 Product pro = new Product(id, name, year, price, brand, category);
+                vector.add(pro);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vector;
+    }
+    
+    public Vector getAllProductVer2(String sql){
+        Vector<Product> vector = new Vector<Product>();
+        try {
+            
+            Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = state.executeQuery(sql);
+            while(rs.next()){
+                //dataType varName = rs.getDataType(fieldName|index);
+                //int id = rs.getInt("product_id");
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                int year = rs.getInt(3);
+                double price = rs.getDouble(4);
+                String brand = rs.getString(5);
+                String category = rs.getString(6); 
+                int quantity = Integer.valueOf(rs.getString(7));
+                Product pro = new Product(id, name, year, price, brand, category, quantity);
                 vector.add(pro);
             }
         } catch (SQLException ex) {

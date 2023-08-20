@@ -13,6 +13,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import model.DAOOrders;
 import model.DAOStores;
@@ -47,12 +49,26 @@ public class managerOrderController extends HttpServlet {
                     // 2-3 process
                     // 4 done
                     Vector<String> vectorS = dao.getField("order_status");
-//                    for (String orders : vectorS) {
-//                        if(orders.equals("1")) {
-//                            orders = "Wait";
+//                    Map<String, String> VectorS = new HashMap<>();
+//                    for (String string : vectorS) {
+//                        switch (string) {
+//                            case "1":
+//                                VectorS.put(string, "Wait");
+//                                break;
+//                            case "2":
+//                                VectorS.put(string, "Process");
+//                                break;
+//                            case "3":
+//                                VectorS.put(string, "Process");
+//                                break;
+//                            case "4":
+//                                VectorS.put(string, "Done");
+//                                break;
 //                        }
-//                        if()
 //                    }
+//                    VectorS.forEach((key, value) -> {
+//                        
+//                    });
                     DAOStores dstore = new DAOStores();
                     Vector<Stores> vectorM = dstore.getListStore();
                     Orders od = (Orders) dao.getAllOrders("select * from Orders "
