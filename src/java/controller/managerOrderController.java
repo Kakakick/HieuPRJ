@@ -5,6 +5,7 @@
 package controller;
 
 import entity.Orders;
+import entity.Stores;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Vector;
 import model.DAOOrders;
+import model.DAOStores;
 
 /**
  *
@@ -22,7 +24,6 @@ import model.DAOOrders;
 @WebServlet(name = "managerOrderController", urlPatterns = {"/managerOrderController"})
 public class managerOrderController extends HttpServlet {
 
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -37,22 +38,32 @@ public class managerOrderController extends HttpServlet {
                 request.setAttribute("listO", vector);
                 request.getRequestDispatcher("ManagerBill.jsp").forward(request, response);
             }
-            if(service.equals("update")){
+            if (service.equals("update")) {
                 String submit = request.getParameter("submit");
-                if(submit == null){ // form chua chay show jsp
+                if (submit == null) { // form chua chay show jsp
                     //show jsp
                     int oid = Integer.parseInt(request.getParameter("id"));
-                    Vector<Orders> vectorS = dao.getField("order_status");
-                    Vector<Orders> vectorM = dao.getField("store_id");
-                    Orders od = (Orders)dao.getAllOrders("select * from Orders "
-                            + "where order_id="+oid).get(0);
-                    
+                    // 1 wait
+                    // 2-3 process
+                    // 4 done
+                    Vector<String> vectorS = dao.getField("order_status");
+//                    for (String orders : vectorS) {
+//                        if(orders.equals("1")) {
+//                            orders = "Wait";
+//                        }
+//                        if()
+//                    }
+                    DAOStores dstore = new DAOStores();
+                    Vector<Stores> vectorM = dstore.getListStore();
+                    Orders od = (Orders) dao.getAllOrders("select * from Orders "
+                            + "where order_id=" + oid).get(0);
+
                     //set data for view
                     request.setAttribute("dataO", od);
                     request.setAttribute("dataS", vectorS);
                     request.setAttribute("dataM", vectorM);
                     request.getRequestDispatcher("editOrder.jsp").forward(request, response);
-                }else{
+                } else {
 
                     int oid = Integer.parseInt(request.getParameter("oid"));
                     int cid = Integer.parseInt(request.getParameter("cid"));
@@ -61,20 +72,20 @@ public class managerOrderController extends HttpServlet {
                     String rdate = request.getParameter("rdate");
                     String sdate = request.getParameter("sdate");
                     int sid = Integer.parseInt(request.getParameter("store"));
-                    
+
                     Orders od = new Orders(oid, sid, status, odate, rdate, sdate, sid, 1);
                     dao.updateOrders(od);
                     response.sendRedirect("managerOrderController");
-                    
+
                 }
             }
-            if(service.equals("delete")){
-                
+            if (service.equals("delete")) {
+
             }
-            if(service.equals("detail")){
+            if (service.equals("detail")) {
                 String submit = request.getParameter("submit");
-                if(submit == null){
-                    
+                if (submit == null) {
+
                 }
             }
         }

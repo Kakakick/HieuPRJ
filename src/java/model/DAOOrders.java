@@ -192,6 +192,8 @@ public class DAOOrders extends DBConnect {
         return vector;
     }
     
+    
+    
     public void displayAll(){
         String sql ="select * from Orders";
         try {

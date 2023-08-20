@@ -79,11 +79,11 @@
                                     <select name="store" class="form-select" aria-label="Default select example">
                                         <c:forEach items="${dataM}" var="o">                                           
                                             <c:choose >
-                                                <c:when test="${dataO.store_id eq o}">
-                                                    <option value="${o}" selected>${o}</option>
+                                                <c:when test="${dataO.store_id eq o.store_id}">
+                                                    <option value="${o.store_id}" selected>${o.store_name}</option>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <option value="${o}">${o}</option>
+                                                    <option value="${o.store_id}">${o.store_name}</option>
                                                 </c:otherwise>
                                             </c:choose>                 
                                         </c:forEach>

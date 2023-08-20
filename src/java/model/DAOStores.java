@@ -156,11 +156,37 @@ public class DAOStores extends DBConnect {
                 String city = rs.getString(6);
                 String state = rs.getString(7);
                 String zip = rs.getString(8);
-                Stores sto = new Stores(id, state, phone, email, street, city, state, zip);
+                Stores sto = new Stores(id, name, phone, email, street, city, state, zip);
                 System.out.println(sto);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public Vector<Stores> getListStore(){
+        Vector<Stores> data = new Vector<>();
+        String sql ="select * from Stores";
+        try {
+            Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                //dataType varName = rs.getDataType(fieldName|index);
+                //int id = rs.getInt("product_id");
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String phone = rs.getString(3);
+                String email = rs.getString(4);
+                String street = rs.getString(5);
+                String city = rs.getString(6);
+                String state = rs.getString(7);
+                String zip = rs.getString(8);
+                Stores sto = new Stores(id, name, phone, email, street, city, state, zip);
+                data.add(sto);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
     }
 }
