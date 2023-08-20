@@ -95,7 +95,7 @@ public class DAOOrder_items extends DBConnect {
     public int deleteOrder_items(int id) {
         int n = 0;
         String sql = "DELETE FROM [dbo].[order_items]\n"
-                + "      WHERE [order_id]"+id;
+                + "      WHERE [order_id]" + id;
         Statement state;
         try {
             state = conn.createStatement();
@@ -103,16 +103,16 @@ public class DAOOrder_items extends DBConnect {
         } catch (SQLException ex) {
             Logger.getLogger(DAOOrder_items.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return n;
     }
-    
-    public Vector searchById(int id){
+
+    public Vector searchById(int id) {
         Vector<Order_items> vector = new Vector<Order_items>();
-        String sql = "select * from Orders where order_id ="+id+"";
+        String sql = "select * from Orders where order_id =" + id + "";
         ResultSet rs = getData(sql);
         try {
-            while(rs.next()){
+            while (rs.next()) {
                 int order_id = rs.getInt(1);
                 int item_id = rs.getInt(2);
                 int product_id = rs.getInt(3);
@@ -126,15 +126,15 @@ public class DAOOrder_items extends DBConnect {
             Logger.getLogger(DAOOrders.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vector;
-      
+
     }
-    
-    public void displayAll(){
-        String sql ="select * from order_items";
+
+    public void displayAll() {
+        String sql = "select * from order_items";
         try {
             Statement state = conn.createStatement();
             ResultSet rs = state.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 //dataType varName = rs.getDataType(fieldName|index);
                 //int id = rs.getInt("product_id");
                 int order_id = rs.getInt(1);
@@ -149,6 +149,30 @@ public class DAOOrder_items extends DBConnect {
         } catch (SQLException ex) {
             Logger.getLogger(DAOOrder_items.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+    }
+
+    public Vector<Order_items> getDataOrderItemByOrderId(String id) {
+        String sql = "select * from order_items where [order_id] = " + id;
+        Vector<Order_items> data = new Vector<>();
+        try {
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                //dataType varName = rs.getDataType(fieldName|index);
+                //int id = rs.getInt("product_id");
+                int order_id = rs.getInt(1);
+                int item_id = rs.getInt(2);
+                int product_id = rs.getInt(3);
+                int quantity = rs.getInt(4);
+                double price = rs.getDouble(5);
+                double discount = rs.getDouble(6);
+                Order_items od = new Order_items(order_id, item_id, product_id, quantity, price, discount);
+                data.add(od);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOOrder_items.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
     }
 }

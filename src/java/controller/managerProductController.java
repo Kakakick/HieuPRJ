@@ -42,11 +42,11 @@ public class managerProductController extends HttpServlet {
                 service = "display";
             }
             if (service.equals("display")) {
-                Vector<Product> vector = dao.getAllProductVer2("select p.product_id, p.product_name, p.model_year, p.list_price , p.brand_name, p.category_name, sum(s.quantity) as total_quantity\n" +
-"from products p\n" +
-"join stocks s\n" +
-"on s.product_id = p.product_id\n" +
-"group by p.product_id, p.product_name, p.brand_name, p.category_name, p.list_price, p.model_year");
+                Vector<Product> vector = dao.getAllProductVer2("select p.product_id, p.product_name, p.model_year, p.list_price , p.brand_name, p.category_name, sum(s.quantity) as total_quantity\n"
+                        + "from products p\n"
+                        + "join stocks s\n"
+                        + "on s.product_id = p.product_id\n"
+                        + "group by p.product_id, p.product_name, p.brand_name, p.category_name, p.list_price, p.model_year");
                 request.setAttribute("listPro", vector);
                 request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
             }

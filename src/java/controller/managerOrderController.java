@@ -4,7 +4,9 @@
  */
 package controller;
 
+import entity.Order_items;
 import entity.Orders;
+import entity.Product;
 import entity.Stores;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +18,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import model.DAOOrder_items;
 import model.DAOOrders;
+import model.DAOProduct;
 import model.DAOStores;
 
 /**
@@ -49,26 +53,7 @@ public class managerOrderController extends HttpServlet {
                     // 2-3 process
                     // 4 done
                     Vector<String> vectorS = dao.getField("order_status");
-//                    Map<String, String> VectorS = new HashMap<>();
-//                    for (String string : vectorS) {
-//                        switch (string) {
-//                            case "1":
-//                                VectorS.put(string, "Wait");
-//                                break;
-//                            case "2":
-//                                VectorS.put(string, "Process");
-//                                break;
-//                            case "3":
-//                                VectorS.put(string, "Process");
-//                                break;
-//                            case "4":
-//                                VectorS.put(string, "Done");
-//                                break;
-//                        }
-//                    }
-//                    VectorS.forEach((key, value) -> {
-//                        
-//                    });
+
                     DAOStores dstore = new DAOStores();
                     Vector<Stores> vectorM = dstore.getListStore();
                     Orders od = (Orders) dao.getAllOrders("select * from Orders "
@@ -99,10 +84,22 @@ public class managerOrderController extends HttpServlet {
 
             }
             if (service.equals("detail")) {
-                String submit = request.getParameter("submit");
-                if (submit == null) {
-
+                String oid = request.getParameter("id");
+                Vector<Product> listProduct = (new DAOProduct()).getAllProductVer2("select p.*, o.quantity from products p join order_items o on p.product_id = o.product_id where o.order_id = " + oid);
+                Vector<Order_items> oi = (new DAOOrder_items()).getDataOrderItemByOrderId(oid);
+                int subtotal = 0;
+                int discount = 0;
+                for (Order_items o : oi) {
+                    subtotal += o.getList_price() * o.getQuantity();
+                    discount += o.getDiscount() * o.getList_price() * o.getQuantity();
                 }
+                System.out.println("subtotal: " + subtotal);
+                request.setAttribute("subtotal", subtotal);
+                request.setAttribute("discount", discount);
+                request.setAttribute("total", subtotal - discount);
+                request.setAttribute("listProduct", listProduct);
+                request.setAttribute("oi", oi);
+                request.getRequestDispatcher("viewOrderDetail.jsp").forward(request, response);
             }
         }
     }
