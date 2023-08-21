@@ -36,9 +36,8 @@ public class updateCart extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        
+
         Object O = session.getAttributeNames();
-        
 
         response.sendRedirect("cart.jsp");
     }
@@ -55,7 +54,14 @@ public class updateCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Map<String, Order_items> cart = (Map<String, Order_items>) session.getAttribute("cart");
+        String id = request.getParameter("id");
+
+        cart.remove(id);
+        session.setAttribute("cart", cart);
+
+        response.sendRedirect("cart");
     }
 
     /**
@@ -69,7 +75,22 @@ public class updateCart extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        Map<String, Order_items> cart = (Map<String, Order_items>) session.getAttribute("cart");
+        String quantities[] = request.getParameterValues("quantity");
+        String idUpdate[] = request.getParameterValues("idUpdate");
+
+        int i = 0;
+
+        for (Map.Entry<String, Order_items> entry : cart.entrySet()) {
+            entry.getValue().setQuantity(Integer.parseInt(quantities[i]));
+            if(entry.getValue().getQuantity() == 0) {
+                cart.remove(idUpdate[i]);
+            }
+            i++;
+        }
+        session.setAttribute("cart", cart);
+        response.sendRedirect("cart");
     }
 
     /**

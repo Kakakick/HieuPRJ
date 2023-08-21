@@ -45,13 +45,25 @@ public class addToCart extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             Product pro = dao.getProductByID(id);
             
+            String quantityRaw = request.getParameter("quantity");
+            int quantity = 0;
+            if(quantityRaw == null) {
+                quantity = 1;
+            }
+            else {
+                quantity = Integer.parseInt(quantityRaw);
+            }
+            
             Object cart = session.getAttribute("cart"); //cart = Order_items
-
+            // ArrayList<Product> dataProduct = new...
+            // for(Order_iemts oi : Order_items) {Product p = (new Product()).getProductById(Order_items.product_id); dataProduct.add(product) }
+            // Product p = (new Product()).getProductById(Order_items.product_id)
+            // order-item: 1    p_id: 1,2,3,4   product: 0
             if (cart == null) {
                 // Nếu sản phẩm không tồn tại trong session, 
                 Order_items item = new Order_items();
                 item.setProduct(pro);
-                item.setQuantity(1); // Đặt số lượng sản phẩm là 1
+                item.setQuantity(quantity); // Đặt số lượng sản phẩm là 1
                 item.setList_price(pro.getList_price());
 
                 // gio hang co nhieu mat hang
@@ -74,7 +86,7 @@ public class addToCart extends HttpServlet {
                     items.put(id + "", item);
 
                 } else {
-                    item.setQuantity(item.getQuantity() + 1);
+                    item.setQuantity(item.getQuantity() + quantity);
                 }
                 session.setAttribute("cart", items);
 

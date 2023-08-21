@@ -50,7 +50,7 @@
                     <button class="btn btn-outline-dark ms-2">
                         <i class="bi-cart-fill me-1"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
                     </button>
                     <div class="dropdown">
                         <button class="btn btn-outline-dark  ms-2 dropdown-toggle" type="button" id="loginRegisterDropdown"
@@ -127,15 +127,12 @@
                                 </div> -->
                                 <div class="col-lg-12">
                                     <h6>Quantity :</h6>
-                                    <input type="number" class="form-control text-center w-100" value="1" min="1">
+                                    <input type="number" id="quantity" class="form-control text-center w-100" value="1" min="1">
                                 </div>
                                 <div class="col-lg-12 mt-3">
                                     <div class="row">
                                         <div class="col-lg-6 pb-2">
-                                            <a href="#" class="btn btn-danger w-100">Add To Cart</a>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <a href="#" class="btn btn-success w-100">Buy Now</a>
+                                            <a onclick="addToCart(${pdetail.product_id})" class="btn btn-danger w-100">Add To Cart</a>
                                         </div>
                                     </div>
                                 </div>

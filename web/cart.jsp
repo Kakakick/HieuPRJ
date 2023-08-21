@@ -158,8 +158,11 @@
                                                                         </div>
                                                                         <div class="col-md-3 price">
                                                                             <span><fmt:formatNumber value="${cart.value.list_price * cart.value.quantity}" pattern="#,##0.00" /></span>
+                                                                            <a href="updateCart?id=${cart.key}" style="font-weight: bolder; text-decoration: none; color: red; font-size: 14px; margin-left: 10px; border: 2px red solid;">
+                                                                                X
+                                                                            </a>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -178,28 +181,19 @@
                             </div>
                             <div class="col-md-12 col-lg-4">
                                 <div class="summary">
-
-                                    <c:set var="subtotal" value="0" />
-                                    <c:forEach items="${cart}" var="cart">
-                                        <c:set var="productTotal" value="${cart.value.list_price * cart.value.quantity}" />
-                                        <c:set var="productTotalFormatted">
-                                            <fmt:formatNumber value="${productTotal}"  pattern="#,##0.00" />
-                                        </c:set>
-                                        
-
-                                    </c:forEach>
                                     <h3>Summary</h3>
                                     <div class="summary-item"><span class="text">Subtotal</span><span
-                                            class="price">${subtotal}</span></div>
+                                            class="price">$${subtotal}</span></div>
                                     <div class="summary-item"><span class="text">Discount</span><span
-                                            class="price">$0</span></div>
+                                            class="price">$${discount}</span></div>
                                     <div class="summary-item"><span class="text">Shipping</span><span
                                             class="price">$0</span></div>
                                     <div class="summary-item"><span class="text">Total</span>
-                                        <span class="price">${subtotal}</span>
+                                        <span class="price">$${total}</span>
                                     </div>
                                     <br>
                                     <a href="addOrder?totalOrder=${subtotal}" class="btn btn-primary btn-lg btn-block">Checkout</a>
+
 
                                 </div>
                             </div>
